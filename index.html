@@ -84,9 +84,7 @@
   </div>
 
 <script>
-  // ▼▼▼ PUT YOUR END-PAGE HOSTING LINK HERE ▼▼▼
-  const END_URL = 'https://YOUR-END-PAGE-LINK.here';
-  // ▲▲▲ replace with project 3's URL ▲▲▲
+  const END_URL = 'https://lolmanwhydowanttofindvortexbruhfucku.github.io/FinalPage/';
 
   const TOTAL = 60;                        // total countdown, seconds
   const GATES = 3 + Math.floor(Math.random()*2);  // 3 or 4 hold gates
@@ -119,7 +117,7 @@
       elapsed++;
       count.textContent = TOTAL - elapsed;
       bar.style.width = (elapsed/TOTAL*100)+'%';
-      if (elapsed >= TOTAL){ clearInterval(timerId); window.location.href = END_URL; return; }
+      if (elapsed >= TOTAL){ clearInterval(timerId); finishFlow(); return; }
       if (gateIdx < triggers.length && elapsed === triggers[gateIdx]){ clearInterval(timerId); gateIdx++; showHold(); }
     }, 1000);
   }
@@ -146,6 +144,11 @@
   function onHoldDone(){
     ring.style.strokeDashoffset=0; label.textContent='✓'; label.style.color='#6ee7b7';
     setTimeout(tick, 500);  // resume the countdown where it paused
+  }
+  function finishFlow(){
+    count.textContent = 0; bar.style.width = '100%';
+    roundLabel.textContent = 'Verification complete';
+    window.location.href = END_URL;   // auto-redirect
   }
   hold.addEventListener('mousedown',begin);
   hold.addEventListener('touchstart',begin,{passive:false});
