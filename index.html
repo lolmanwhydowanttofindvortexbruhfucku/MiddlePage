@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VortexX — Verifying</title>
+<style>
+  :root{--bg:#0a0f1a;--panel:#0f1826;--line:#1f3147;--blue:#3b82f6;--cyan:#22d3ee;--green:#6ee7b7;
+    --text:#e9f2fb;--muted:#8ea6c2;--glow:rgba(34,211,238,.4)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--text);min-height:100vh;
+    background:radial-gradient(700px 400px at 85% 15%,#0e2a44 0%,transparent 60%),
+      radial-gradient(600px 400px at 10% 90%,#0a2733 0%,transparent 55%),var(--bg);
+    display:flex;align-items:center;justify-content:center;padding:24px}
+  .shell{width:100%;max-width:920px;display:grid;grid-template-columns:320px 1fr;background:var(--panel);
+    border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.55)}
+  .rail{background:linear-gradient(180deg,#12233a,#0b1522);border-right:1px solid var(--line);
+    padding:34px 28px;display:flex;flex-direction:column}
+  .brand{display:flex;align-items:center;gap:12px;margin-bottom:40px}
+  .mark{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    font-size:22px;font-weight:800;color:#04141a;background:linear-gradient(135deg,#22d3ee,#3b82f6);box-shadow:0 8px 24px var(--glow)}
+  .brand b{font-size:20px;letter-spacing:.5px}
+  .rail-foot{margin-top:24px;color:var(--muted);font-size:12px;display:flex;align-items:center;gap:7px;
+    padding-top:20px;border-top:1px solid var(--line)}
+  .stage{padding:52px 46px;display:flex;flex-direction:column;justify-content:center;min-height:480px}
+  .screen{display:none}.screen.active{display:block;animation:in .35s ease}
+  @keyframes in{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
+  h1{font-size:26px;font-weight:800;margin-bottom:10px}
+  .sub{color:var(--muted);font-size:15px;line-height:1.6;margin-bottom:30px;max-width:360px}
+  #s-timer{text-align:center}
+  #s-timer .bar{margin-left:auto;margin-right:auto}
+  .timer{font-size:58px;font-weight:800;color:var(--cyan);text-shadow:0 0 30px rgba(34,211,238,.4);margin-bottom:6px}
+  .timer small{font-size:20px;color:var(--muted);font-weight:600}
+  .bar{height:8px;border-radius:8px;background:rgba(255,255,255,.07);overflow:hidden;margin:20px 0 16px;max-width:380px}
+  .bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:width .3s linear}
+  .wait{color:var(--muted);font-size:14px}
+  .hold-wrap{display:flex;align-items:center;justify-content:center;text-align:center;gap:40px;flex-wrap:wrap}
+  .hold-copy .sub{margin-left:auto;margin-right:auto}
+  .hold-btn{position:relative;width:180px;height:180px;border-radius:50%;flex:none;
+    background:radial-gradient(circle at 50% 42%,#12233a,#0b1522);border:none;cursor:pointer;
+    color:var(--green);font-weight:800;font-size:16px;letter-spacing:2px;user-select:none;box-shadow:0 0 40px rgba(34,211,238,.28)}
+  .ring{position:absolute;inset:0;transform:rotate(-90deg)}
+  .ring circle{fill:none;stroke-width:6}
+  .ring .track{stroke:rgba(34,211,238,.2)}
+  .ring .fill{stroke:url(#g);stroke-linecap:round;stroke-dasharray:527;stroke-dashoffset:527;transition:stroke-dashoffset .1s linear}
+  .hold-copy h1{margin-bottom:8px}
+  @media(max-width:760px){.shell{grid-template-columns:1fr}.rail{flex-direction:row;align-items:center;gap:20px}
+    .brand{margin-bottom:0}.rail-foot{display:none}.stage{padding:36px 28px;min-height:auto}.hold-wrap{flex-direction:column;text-align:center}}
+</style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail">
+      <div class="brand"><span class="mark">V</span><b>VortexX</b></div>
+      <div style="flex:1"></div>
+      <div class="rail-foot">🛡️ Protected by VortexX Security</div>
+    </aside>
+    <main class="stage">
+      <section class="screen active" id="s-timer">
+        <p class="wait" id="round-label" style="margin-bottom:6px;color:var(--cyan);font-weight:700">Automated verification</p>
+        <div class="timer"><span id="count">60</span><small>s</small></div>
+        <p class="wait">Running security checks — please keep this page open.</p>
+        <div class="bar"><i id="bar"></i></div>
+      </section>
+      <section class="screen" id="s-hold">
+        <div class="hold-wrap">
+          <button class="hold-btn" id="hold">
+            <svg class="ring" viewBox="0 0 180 180">
+              <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#6ee7b7"/><stop offset="1" stop-color="#3b82f6"/>
+              </linearGradient></defs>
+              <circle class="track" cx="90" cy="90" r="84"/>
+              <circle class="fill" id="ring" cx="90" cy="90" r="84"/>
+            </svg>
+            <span id="hold-label">HOLD</span>
+          </button>
+          <div class="hold-copy">
+            <h1 id="hold-title">Keep going</h1>
+            <p class="sub" style="margin-bottom:0">Hold the button for <b style="color:var(--cyan)">3 seconds</b> to continue verification.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<script>
+  // ▼▼▼ PUT YOUR END-PAGE HOSTING LINK HERE ▼▼▼
+  const END_URL = 'https://YOUR-END-PAGE-LINK.here';
+  // ▲▲▲ replace with project 3's URL ▲▲▲
+
+  const TOTAL = 60;                        // total countdown, seconds
+  const GATES = 3 + Math.floor(Math.random()*2);  // 3 or 4 hold gates
+  const LEN = 527, MS = 3000;              // ring length, hold duration
+  const count=document.getElementById('count'), bar=document.getElementById('bar'),
+        roundLabel=document.getElementById('round-label'), holdTitle=document.getElementById('hold-title'),
+        hold=document.getElementById('hold'), ring=document.getElementById('ring'), label=document.getElementById('hold-label');
+  let elapsed=0, gateIdx=0, timerId=0, start=0, raf=0;
+
+  // pick GATES random trigger seconds, spaced across the run so they don't cluster
+  const triggers = [...new Set(
+    Array.from({length:GATES}, (_,i) => {
+      const base = Math.round(TOTAL*(i+1)/(GATES+1));
+      return Math.min(TOTAL-3, Math.max(5, base + (Math.floor(Math.random()*7)-3)));
+    })
+  )].sort((a,b)=>a-b);
+
+  const show = id => {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  };
+
+  count.textContent = TOTAL;
+  tick();  // start the 60s countdown
+
+  function tick(){
+    show('s-timer');
+    clearInterval(timerId);
+    timerId = setInterval(() => {
+      elapsed++;
+      count.textContent = TOTAL - elapsed;
+      bar.style.width = (elapsed/TOTAL*100)+'%';
+      if (elapsed >= TOTAL){ clearInterval(timerId); window.location.href = END_URL; return; }
+      if (gateIdx < triggers.length && elapsed === triggers[gateIdx]){ clearInterval(timerId); gateIdx++; showHold(); }
+    }, 1000);
+  }
+  function showHold(){
+    holdTitle.textContent = 'Human check';
+    label.textContent='HOLD'; label.style.color='';
+    ring.style.transition='none'; ring.style.strokeDashoffset=LEN;
+    requestAnimationFrame(()=>ring.style.transition='stroke-dashoffset .1s linear');
+    show('s-hold');
+  }
+  const frame=now=>{
+    const p=Math.min((now-start)/MS,1);
+    ring.style.strokeDashoffset=LEN*(1-p);
+    if(p>=1){ start=0; onHoldDone(); return; }
+    raf=requestAnimationFrame(frame);
+  };
+  const begin=e=>{e.preventDefault(); if(!start){start=performance.now(); raf=requestAnimationFrame(frame);}};
+  const cancel=()=>{
+    if(!start)return;
+    cancelAnimationFrame(raf); start=0;
+    ring.style.transition='stroke-dashoffset .3s ease'; ring.style.strokeDashoffset=LEN;
+    setTimeout(()=>ring.style.transition='stroke-dashoffset .1s linear',300);
+  };
+  function onHoldDone(){
+    ring.style.strokeDashoffset=0; label.textContent='✓'; label.style.color='#6ee7b7';
+    setTimeout(tick, 500);  // resume the countdown where it paused
+  }
+  hold.addEventListener('mousedown',begin);
+  hold.addEventListener('touchstart',begin,{passive:false});
+  ['mouseup','mouseleave','touchend','touchcancel'].forEach(ev=>hold.addEventListener(ev,cancel));
+</script>
+</body>
+</html>
